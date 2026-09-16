@@ -1,0 +1,682 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: rgb(15, 18, 26);
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(245, 247, 250);
+}
+
+canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 0;
+}
+
+
+/* =========================================================
+   SCREEN
+========================================================= */
+
+.screen {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================================================
+   SPLASH SCREEN
+========================================================= */
+
+.splash-screen {
+    background: rgb(185, 215, 235);
+    overflow: hidden;
+}
+
+.decoration {
+    position: absolute;
+    border-radius: 50%;
+}
+
+.decoration-1 {
+    width: 140px;
+    height: 140px;
+    left: -20px;
+    top: 0;
+    background: rgb(165, 200, 225);
+}
+
+.decoration-2 {
+    width: 130px;
+    height: 130px;
+    right: -20px;
+    top: 20px;
+    background: rgb(215, 232, 245);
+}
+
+.decoration-3 {
+    width: 80px;
+    height: 80px;
+    right: -10px;
+    bottom: -10px;
+    background: rgb(160, 195, 220);
+}
+
+.decoration-4 {
+    width: 110px;
+    height: 110px;
+    left: 5px;
+    bottom: 10px;
+    background: rgb(220, 235, 245);
+}
+
+.splash-panel {
+    width: min(720px, calc(100% - 80px));
+    min-height: 470px;
+
+    background: rgb(240, 247, 251);
+
+    border: 3px solid rgb(150, 185, 210);
+    border-radius: 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-top: 45px;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.splash-panel h1 {
+    margin-top: 40px;
+
+    font-size: clamp(50px, 8vw, 88px);
+    font-weight: 800;
+
+    color: rgb(75, 110, 140);
+}
+
+.subtitle {
+    margin-top: 8px;
+
+    font-size: 30px;
+    color: rgb(75, 82, 95);
+}
+
+#loadingText {
+    margin-top: 45px;
+
+    font-size: 24px;
+    color: rgb(110, 120, 130);
+}
+
+.loading-bar {
+    width: min(430px, calc(100% - 100px));
+    height: 14px;
+
+    margin-top: 18px;
+
+    background: rgb(210, 220, 230);
+
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#loadingProgress {
+    width: 0%;
+    height: 100%;
+
+    background: rgb(105, 165, 195);
+
+    border-radius: 10px;
+
+    transition: width 0.03s linear;
+}
+
+.eat-text {
+    margin-top: 35px;
+
+    font-size: 24px;
+    color: rgb(130, 145, 155);
+}
+
+
+/* =========================================================
+   MINI SNAKE
+========================================================= */
+
+.mini-snake {
+    width: 190px;
+    height: 32px;
+
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.mini-head,
+.mini-body {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+
+    border-radius: 4px;
+}
+
+.mini-head {
+    position: relative;
+    background: rgb(255, 170, 195);
+}
+
+.body1 {
+    background: rgb(255, 205, 160);
+}
+
+.body2 {
+    background: rgb(180, 225, 180);
+}
+
+.body3 {
+    background: rgb(155, 215, 215);
+}
+
+.body4 {
+    background: rgb(170, 200, 235);
+}
+
+.mini-head::before,
+.mini-head::after {
+    content: "";
+
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    right: 5px;
+}
+
+.mini-head::before {
+    top: 5px;
+}
+
+.mini-head::after {
+    bottom: 5px;
+}
+
+.menu-snake {
+    margin-top: 50px;
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+#menuScreen {
+    background:
+        linear-gradient(
+            to bottom,
+            rgb(24, 29, 41) 0,
+            rgb(24, 29, 41) 180px,
+            rgb(15, 18, 26) 180px
+        );
+
+    background-image:
+        linear-gradient(
+            rgba(28, 33, 45, 0.9) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(28, 33, 45, 0.9) 1px,
+            transparent 1px
+        );
+
+    background-size: 20px 20px;
+}
+
+.menu-panel {
+    width: min(650px, calc(100% - 80px));
+    min-height: 560px;
+
+    background: rgb(27, 31, 42);
+
+    border: 2px solid rgb(60, 67, 83);
+    border-radius: 30px;
+
+    text-align: center;
+
+    position: relative;
+
+    box-shadow:
+        8px 8px 0 rgb(8, 10, 15);
+
+    padding-bottom: 30px;
+}
+
+.menu-panel h1 {
+    margin-top: 50px;
+
+    font-size: clamp(50px, 7vw, 78px);
+
+    color: rgb(255, 180, 200);
+}
+
+.menu-subtitle {
+    margin-top: 20px;
+
+    font-size: 25px;
+    color: rgb(155, 163, 180);
+}
+
+.description {
+    margin-top: 18px;
+
+    font-size: 20px;
+    color: rgb(155, 163, 180);
+}
+
+.main-button,
+.exit-button {
+    width: 320px;
+    max-width: calc(100% - 50px);
+
+    height: 62px;
+
+    border: 2px solid white;
+    border-radius: 14px;
+
+    font-size: 25px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s,
+        filter 0.15s;
+}
+
+.main-button {
+    margin-top: 45px;
+
+    background: rgb(105, 190, 160);
+    color: rgb(25, 30, 35);
+}
+
+.exit-button {
+    margin-top: 18px;
+
+    background: rgb(215, 115, 130);
+    color: rgb(25, 30, 35);
+}
+
+.main-button:hover,
+.exit-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.main-button:active,
+.exit-button:active {
+    transform: translateY(3px);
+}
+
+.instruction {
+    margin-top: 25px;
+
+    font-size: 18px;
+    color: rgb(155, 163, 180);
+}
+
+
+/* =========================================================
+   HUD
+========================================================= */
+
+#hud {
+    position: fixed;
+    inset: 0;
+
+    z-index: 5;
+
+    pointer-events: none;
+}
+
+.hud-card {
+    position: absolute;
+
+    top: 20px;
+
+    height: 62px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgb(28, 32, 43);
+
+    border: 2px solid rgb(55, 61, 76);
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 0 rgb(10, 13, 20);
+
+    font-weight: bold;
+}
+
+.score-card {
+    left: 20px;
+    width: 155px;
+
+    font-size: 26px;
+}
+
+.level-card {
+    left: 190px;
+    width: 150px;
+
+    font-size: 23px;
+    color: rgb(255, 220, 120);
+}
+
+.control-card {
+    right: 20px;
+    width: 190px;
+
+    font-size: 16px;
+    color: rgb(155, 163, 180);
+}
+
+
+/* =========================================================
+   MOBILE CONTROLS
+========================================================= */
+
+#mobileControls {
+    position: fixed;
+
+    left: 50%;
+    bottom: 20px;
+
+    transform: translateX(-50%);
+
+    z-index: 20;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.horizontal-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.control-button {
+    width: 62px;
+    height: 62px;
+
+    background: rgb(45, 52, 68);
+
+    border: 2px solid rgb(90, 100, 120);
+
+    border-radius: 16px;
+
+    color: rgb(245, 247, 250);
+
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 0 rgb(8, 10, 15);
+}
+
+.control-button:hover {
+    background: rgb(65, 75, 95);
+}
+
+.control-button:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   NICE
+========================================================= */
+
+#niceText {
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 15;
+
+    font-size: 42px;
+    font-weight: bold;
+
+    color: rgb(255, 220, 120);
+
+    pointer-events: none;
+
+    opacity: 0;
+}
+
+
+/* =========================================================
+   GAME OVER
+========================================================= */
+
+#gameOverScreen {
+    background: rgba(5, 7, 12, 0.84);
+}
+
+.game-over-panel {
+    width: min(560px, calc(100% - 60px));
+    height: 390px;
+
+    background: rgb(28, 31, 41);
+
+    border: 2px solid rgb(68, 73, 88);
+
+    border-radius: 25px;
+
+    text-align: center;
+
+    box-shadow:
+        8px 8px 0 rgb(8, 10, 15);
+
+    padding-top: 22px;
+}
+
+.x-icon {
+    width: 86px;
+    height: 86px;
+
+    margin: 0 auto;
+
+    border-radius: 50%;
+
+    background: rgb(125, 50, 60);
+
+    border: 8px solid rgb(95, 40, 50);
+
+    position: relative;
+}
+
+.x-icon span {
+    position: absolute;
+
+    width: 32px;
+    height: 6px;
+
+    background: rgb(255, 150, 160);
+
+    left: 19px;
+    top: 33px;
+
+    border-radius: 5px;
+}
+
+.x-icon span:first-child {
+    transform: rotate(45deg);
+}
+
+.x-icon span:last-child {
+    transform: rotate(-45deg);
+}
+
+.game-over-panel h1 {
+    margin-top: 17px;
+
+    font-size: clamp(45px, 7vw, 70px);
+
+    color: rgb(255, 150, 160);
+}
+
+.final-score {
+    margin-top: 12px;
+
+    font-size: 25px;
+
+    color: rgb(245, 247, 250);
+}
+
+.game-over-buttons {
+    margin-top: 40px;
+
+    display: flex;
+    justify-content: center;
+
+    gap: 20px;
+}
+
+.game-over-buttons .main-button,
+.game-over-buttons .exit-button {
+    width: 155px;
+    height: 55px;
+
+    margin: 0;
+
+    font-size: 18px;
+}
+
+.game-over-panel .instruction {
+    margin-top: 35px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .splash-panel {
+        min-height: 430px;
+        padding-top: 35px;
+    }
+
+    .subtitle {
+        font-size: 22px;
+    }
+
+    #loadingText {
+        font-size: 19px;
+        margin-top: 35px;
+    }
+
+    .eat-text {
+        font-size: 19px;
+    }
+
+    .menu-panel {
+        min-height: 520px;
+    }
+
+    .menu-snake {
+        margin-top: 35px;
+    }
+
+    .menu-panel h1 {
+        margin-top: 35px;
+    }
+
+    .description {
+        font-size: 16px;
+    }
+
+    .control-card {
+        display: none;
+    }
+
+    .score-card {
+        left: 10px;
+        top: 10px;
+    }
+
+    .level-card {
+        left: auto;
+        right: 10px;
+        top: 10px;
+    }
+
+    #mobileControls {
+        bottom: 10px;
+    }
+
+    .game-over-panel {
+        height: 360px;
+    }
+
+    .game-over-buttons {
+        gap: 10px;
+    }
+}
+
+@media (max-height: 600px) {
+
+    .menu-panel {
+        transform: scale(0.85);
+    }
+
+    .splash-panel {
+        transform: scale(0.85);
+    }
+}
